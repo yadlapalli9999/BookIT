@@ -39,7 +39,7 @@ const newRoom = async(req,res)=>{
    }
 }
  
-// get single romm => /api/rooms/:id
+// get single room => /api/rooms/:id
 const getSingleRoom = async(req,res)=>{
     try{
       let room = await Room.findById(req.query.id)
@@ -65,7 +65,7 @@ const getSingleRoom = async(req,res)=>{
 
 
 
-// get single romm => /api/rooms/:id
+// update room => /api/rooms/:id
 const updateRoom = async(req,res)=>{
     try{
       let room = await Room.findById(req.query.id)
@@ -94,4 +94,31 @@ const updateRoom = async(req,res)=>{
         })
     }
 }
-export {allRooms,newRoom,getSingleRoom,updateRoom}
+
+
+// delete room => /api/rooms/:id
+const deleteRoom = async(req,res)=>{
+    try{
+      const room = await Room.findById(req.query.id)
+      if(!room){
+       return  res.status(404).json({
+            success:false,
+            error:'Room not found with this ID'
+        })
+      }
+
+      await room.remove()
+
+      res.status(200).json({
+         success:true,
+         message:'Room is Deleted'
+      })
+    }
+    catch(error){
+        res.status(400).json({
+            success:false,
+            error:error.message
+        })
+    }
+}
+export {allRooms,newRoom,getSingleRoom,updateRoom,deleteRoom}
