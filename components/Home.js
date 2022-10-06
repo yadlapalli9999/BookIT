@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import RoomItem from "./room/RoomItem";
 
 const Home = ()=>{
 
     const {rooms} = useSelector(state=>state.allRooms)
     console.log(rooms)
+    useEffect(()=>{
+        toast.success('Get All Rooms')
+    },[])
     return(
         <section id="rooms" className="container mt-5">
 
