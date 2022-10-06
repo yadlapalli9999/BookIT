@@ -4,7 +4,7 @@ import APIFeature from '../utils/apiFeatures';
 import ErrorHandler from '../utils/errorHandler';
 
 const allRooms = catchAsyncError(async (req,res)=>{
-     const APIFeatures = new APIFeature(Room.find(),req.query).search()
+     const APIFeatures = new APIFeature(Room.find(),req.query).search().filter()
       let rooms = await APIFeatures.query;
       res.status(200).json({
         success:true,
