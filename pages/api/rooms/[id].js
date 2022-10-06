@@ -1,7 +1,7 @@
 import nc from 'next-connect';
 import { deleteRoom, getSingleRoom, updateRoom } from '../../../controllers/roomController';
-
-const handler = nc();
+import onError from '../../../middlewares/errors';
+const handler = nc({onError});
 
 handler.get(getSingleRoom)
 
