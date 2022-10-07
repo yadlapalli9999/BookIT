@@ -3,7 +3,7 @@ import absoluteUrl from "next-absolute-url";
 import { ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
 
 
-export const getAllRooms =(req,currentPage=1,location=null) => async(dispatch)=>{
+export const getAllRooms =(req,currentPage=1,location='') => async(dispatch)=>{
    try{
     const {origin} = absoluteUrl(req)
     //.log(absoluteUrl(req))
