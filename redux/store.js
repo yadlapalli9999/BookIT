@@ -27,4 +27,11 @@ const reducer = (state,action)=>{
 
 const initStore = ()=>{ return createStore(reducer,bindMiddleware([thunkMiddleware]))}
 
-export const wrapper = createWrapper(initStore);
+export const wrapper = createWrapper(initStore,
+  // {serializeState:(store)=>JSON.parse(JSON.stringify(store))}
+
+  // {
+  //  serializeState:(state) =>JSON.stringify(state),
+  //  deserializeState:(state)=>JSON.parse(state)
+  // }
+);

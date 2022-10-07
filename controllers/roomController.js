@@ -4,16 +4,17 @@ import APIFeatures from '../utils/apiFeatures';
 import ErrorHandler from '../utils/errorHandler';
 
 const allRooms = catchAsyncError(async (req,res)=>{
-  const resPerPage = 4;
+  let resPerPage = 4;
   const roomCount = await Room.countDocuments();
-     let apiFeatures = new APIFeatures(Room.find(),req.query).search().filter()
-      // let rooms = await apiFeatures.query;
+     let apiFeatures = new APIFeatures(Room.find(),req.query).search().filter().pagination(resPerPage)
+   //   apiFeatures.pagination(resPerPage);
 
-      apiFeatures.pagination(resPerPage);
       let rooms = await apiFeatures.query;
       let fliteredRoomCount = rooms.length;
 
-      res.status(200).json({
+      //rooms = await apiFeatures.query;
+
+     res.status(200).json({
         success:true,
         roomCount,
         resPerPage,
