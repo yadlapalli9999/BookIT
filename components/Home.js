@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearErrors } from "../redux/actions/roomActions";
@@ -28,14 +29,14 @@ const Home = ()=>{
 
       <h2 className='mb-3 ml-2 stays-heading'>Stays in New York</h2>
 
-      <a href='#' className='ml-2 back-to-search'> <i className='fa fa-arrow-left'></i> Back to Search</a>
+      <Link href="/search"><a className='ml-2 back-to-search'> Back to Search</a></Link>
       <div className="row">
         {
             rooms && rooms.length === 0 ? (<div className="alert alert-danger"> No Rooms</div>):
             (rooms && rooms.map((room)=> {
               return  <RoomItem key={room?._id} room={room}/>
 }))
-        }
+        }    
       </div>
     </section>
     {

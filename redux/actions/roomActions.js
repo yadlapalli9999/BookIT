@@ -3,13 +3,13 @@ import absoluteUrl from "next-absolute-url";
 import { ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
 
 
-export const getAllRooms =(req,currentPage=1) => async(dispatch)=>{
+export const getAllRooms =(req,currentPage=1,location=null) => async(dispatch)=>{
    try{
     const {origin} = absoluteUrl(req)
     //.log(absoluteUrl(req))
     //let link = `${origin}/api/rooms?page=${currentPage}`
-     const {data} = await axios.get(`${origin}/api/rooms`)
-    //const {data} = await axios.get(`${origin}/api/rooms?page=${currentPage}`)
+    let link = `${origin}/api/rooms?page=${currentPage}&location=${location}`
+     const {data} = await axios.get(link)
     console.log(data)
     dispatch({
         type:ALL_ROOMS_SUCCESS,
@@ -17,9 +17,10 @@ export const getAllRooms =(req,currentPage=1) => async(dispatch)=>{
     })
    }
    catch(error){
+    console.log(error)
     dispatch({
         type:ALL_ROOMS_FAIL,
-        payload: error.message
+        payload: error.response.data.message
     })
    }
 }
