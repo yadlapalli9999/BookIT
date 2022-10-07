@@ -1,20 +1,19 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const RoomItem = ({room}) =>{
-    console.log(room)
     return(
         <div className="col-sm-12 col-md-6 col-lg-3 my-3">
           <div className="card p-2">
             <Image
               className="card-img-top mx-auto"
               src={room.images[0].url}
-              layout="fill"
+              width="100%" height="170"
             />
             <div className="card-body d-flex flex-column">
               <h5 className="card-title">
-                <Link href={`/room/${room._id}`}><a>{room.name}</a></Link>
+                <Link href={`/room/${room._id}`} passHref target="_blank"><a>{room.name}</a></Link>
               </h5>
 
               <div className="ratings mt-auto mb-3">
@@ -27,7 +26,7 @@ const RoomItem = ({room}) =>{
             </div>
 
             <button className="btn btn-block view-btn">
-                <Link href={`/room/${room._id}`}><a>View Details</a></Link>
+                <Link href={`/room/${room._id}`} passHref>View Details</Link>
             </button>
           </div>
         </div>
