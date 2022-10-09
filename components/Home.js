@@ -9,14 +9,14 @@ import { useRouter } from "next/router";
 
 const Home = ()=>{
 
-    let {  rooms,resPerPage,roomCount,fliteredRoomCount} = useSelector(state=>state.allRooms)
+    let {  rooms,resPerPage,roomCount,fliteredRoomCount,error} = useSelector(state=>state.allRooms)
     console.log(rooms)
     let dispatch = useDispatch()
     let router = useRouter();
     let {page = 1 }= router.query
     page = Number(page)
     useEffect(()=>{
-        // toast.error(error)
+        toast.error(error)
         dispatch(clearErrors())
     },[])
     const handlePagination =(pageNumber)=>{
@@ -34,7 +34,7 @@ const Home = ()=>{
         {
             rooms && rooms.length === 0 ? (<div className="alert alert-danger"> No Rooms</div>):
             (rooms && rooms.map((room)=> {
-              return  <RoomItem key={room?._id} room={room}/>
+              return  <RoomItem key={room._id} room={room}/>
 }))
         }    
       </div>

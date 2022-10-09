@@ -1,4 +1,5 @@
 import catchAsyncError from '../middlewares/catchAsyncError';
+import room from '../models/room';
 import Room from '../models/room';
 import APIFeatures from '../utils/apiFeatures';
 import ErrorHandler from '../utils/errorHandler';
@@ -6,13 +7,15 @@ import ErrorHandler from '../utils/errorHandler';
 const allRooms = catchAsyncError(async (req,res)=>{
   let resPerPage = 4;
   const roomCount = await Room.countDocuments();
-     let apiFeatures = new APIFeatures(Room.find(),req.query).search().filter().pagination(resPerPage)
-   //   apiFeatures.pagination(resPerPage);
-
+     let apiFeatures = new APIFeatures(Room.find({}).lean(),req.query)
+      .search()
+      .filter()
+      .pagination(resPerPage)
       let rooms = await apiFeatures.query;
-      let fliteredRoomCount = rooms.length;
-
-      //rooms = await apiFeatures.query;
+      let fliteredRoomCount = rooms.length >0 ?rooms.length :0;
+     // apiFeatures.pagination(resPerPage)
+     //rooms = await apiFeatures.query.clone()
+      //rooms = await apiFeatures.query
 
      res.status(200).json({
         success:true,
