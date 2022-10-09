@@ -24,30 +24,30 @@ export const getAllRooms =(req,currentPage=1,location='') => async(dispatch)=>{
 }
 
 //get room details
-// export const getRoomDetails =(req,id) => async(dispatch)=>{
-//     try{
-//      const {origin} = absoluteUrl(req)
-//      let url;
+export const getRoomDetails =(req,id) => async(dispatch)=>{
+    try{
+     const {origin} = absoluteUrl(req)
+     let url;
 
-//      if (req) {
-//          url = `${origin}/api/rooms/${id}`
-//      } else {
-//          url = `/api/rooms/${id}`
-//      }
-//      const {data} = await axios.get(url)
+     if (req) {
+         url = `${origin}/api/rooms/${id}`
+     } else {
+         url = `/api/rooms/${id}`
+     }
+     const {data} = await axios.get(url)
  
-//      dispatch({
-//          type:ROOM_DETAIL_SUCCESS,
-//          payload:data.room
-//      })
-//     }
-//     catch(error){
-//         dispatch({
-//             type:ROOM_DETAIL_FAIL,
-//             payload: error.response.data.message
-//         })
-//     }
-//  }
+     dispatch({
+         type:ROOM_DETAIL_SUCCESS,
+         payload:data.room
+     })
+    }
+    catch(error){
+        dispatch({
+            type:ROOM_DETAIL_FAIL,
+            payload: error.response.data.message
+        })
+    }
+ }
 
 //clear error
 export const clearErrors = ()=> async(dispatch)=>{

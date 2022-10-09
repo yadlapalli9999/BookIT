@@ -8,11 +8,11 @@ import Pagination from "react-js-pagination";
 import { useRouter } from "next/router";
 
 const Home = ()=>{
-
+  let dispatch = useDispatch()
+  let router = useRouter();
     let {  rooms,resPerPage,roomCount,fliteredRoomCount,error} = useSelector(state=>state.allRooms)
     console.log(rooms)
-    let dispatch = useDispatch()
-    let router = useRouter();
+   
     let {page = 1 }= router.query
     page = Number(page)
     useEffect(()=>{
@@ -20,8 +20,8 @@ const Home = ()=>{
         dispatch(clearErrors())
     },[])
     const handlePagination =(pageNumber)=>{
-     router.push(`/?page=${pageNumber}`)
-     //window.location.href = `/?page=${pageNumber}`  
+     //router.push(`/?page=${pageNumber}`)
+     window.location.href = `/?page=${pageNumber}`  
     }
     return(
         <>
@@ -40,7 +40,7 @@ const Home = ()=>{
       </div>
     </section>
     {
-         (resPerPage <roomCount) && <div className="d-flex justify-content-center"> 
+         resPerPage <roomCount && <div className="d-flex justify-content-center"> 
              <Pagination 
      activePage={page}        
     itemsCountPerPage={resPerPage}
