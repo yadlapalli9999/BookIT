@@ -13,15 +13,28 @@ const Home = ()=>{
     let {  rooms,resPerPage,roomCount,fliteredRoomCount,error} = useSelector(state=>state.allRooms)
     console.log(rooms)
    
-    let {page = 1 ,location}= router.query
+    let {location,page = 1}= router.query
     page = Number(page)
     useEffect(()=>{
         toast.error(error)
         dispatch(clearErrors())
     },[])
+
+    let queryParams;
+    if(typeof window !== 'undefined'){
+       queryParams = new URLSearchParams(window.location.search)
+    }
     const handlePagination =(pageNumber)=>{
-     router.push(`/?page=${pageNumber}`)
+    // router.push(`/?page=${pageNumber}`)
      //window.location.href = `/?page=${pageNumber}`  
+     if(queryParams.has('page')){
+        queryParams.set('page',pageNumber)
+     }else{
+        queryParams.append('page',pageNumber)
+     }
+      router.replace({
+        search:queryParams.toString()
+      })
     }
 
     let count = roomCount;
@@ -45,7 +58,7 @@ const Home = ()=>{
       </div>
     </section>
     {
-         resPerPage <count && <div className="d-flex justify-content-center"> 
+      resPerPage < roomCount && <div className="d-flex justify-content-center"> 
              <Pagination 
      activePage={page}        
     itemsCountPerPage={resPerPage}
