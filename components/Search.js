@@ -14,16 +14,16 @@ const Search = ()=>{
       }
     }
     return(
-        <div class="container container-fluid">
-      <div class="row wrapper">
-        <div class="col-10 col-lg-5">
-          <form class="shadow-lg" onSubmit={handleSearch}>
-            <h2 class="mb-3">Search Rooms</h2>
-            <div class="form-group">
-              <label for="location_field">Location</label>
+        <div className="container container-fluid">
+      <div className="row wrapper">
+        <div className="col-10 col-lg-5">
+          <form className="shadow-lg" onSubmit={handleSearch}>
+            <h2 className="mb-3">Search Rooms</h2>
+            <div className="form-group">
+              <label htmlFor="location_field">Location</label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="location_field"
                 placeholder="new york"
                 value={location}
@@ -31,9 +31,9 @@ const Search = ()=>{
               />
             </div>
 
-            {/* <div class="form-group">
-              <label for="guest_field">No. of Guests</label>
-              <select class="form-control" id="guest_field" value="">
+            {/* <div className="form-group">
+              <label htmlFor="guest_field">No. of Guests</label>
+              <select className="form-control" id="guest_field" value="">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -42,16 +42,16 @@ const Search = ()=>{
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="room_type_field">Room Type</label>
-              <select class="form-control" id="room_type_field" value="">
+            <div className="form-group">
+              <label htmlFor="room_type_field">Room Type</label>
+              <select className="form-control" id="room_type_field" value="">
                 <option>King</option>
                 <option>Single</option>
                 <option>Twins</option>
               </select>
             </div> */}
 
-            <button type="submit" class="btn btn-block py-2">Search</button>
+            <button type="submit" className="btn btn-block py-2">Search</button>
           </form>
         </div>
       </div>

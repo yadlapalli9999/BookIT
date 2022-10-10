@@ -6,7 +6,7 @@ export const getAllRooms =(req,currentPage=1,location='') => async(dispatch)=>{
    try{
     const {origin} = absoluteUrl(req)
     //console.log(absoluteUrl(req))
-     const {data} = await axios.get(`${origin}/api/rooms?page=${currentPage}`)
+     const {data} = await axios.get(`${origin}/api/rooms?page=${currentPage}&location=${location}`)
     console.log(data)
     dispatch({
         type:ALL_ROOMS_SUCCESS,
