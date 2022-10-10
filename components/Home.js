@@ -37,7 +37,7 @@ const Home = ()=>{
       <Link href="/search"><a className='ml-2 back-to-search'> Back to Search</a></Link>
       <div className="row">
         {
-            rooms && rooms.length === 0 ? (<div className="alert alert-danger"> No Rooms</div>):
+            rooms && rooms.length === 0 ? (<div className="alert alert-danger mt-5 w-100"> No Rooms</div>):
             (rooms && rooms.map((room)=> {
               return  <RoomItem key={room._id} room={room}/>
 }))
