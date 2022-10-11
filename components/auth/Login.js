@@ -3,6 +3,7 @@ import {signIn} from 'next-auth/react'
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import ButtonLoader from "../layout/ButtonLoader";
+import Link from "next/link";
 
 const Login = ()=>{
     const [email,setEmail] = useState('');
@@ -62,7 +63,7 @@ const Login = ()=>{
                 {loading?<ButtonLoader/>: 'LOGIN'}
             </button>
 
-            <a href="#" class="float-right mt-3">New User?</a>
+            <Link href="/register"><a class="float-right mt-3">New User?</a></Link>
           </form>
 		  </div>
     </div>
