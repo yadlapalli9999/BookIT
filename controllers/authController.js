@@ -37,4 +37,16 @@ const registerUser = catchAsyncError(async (req,res)=>{
    
 })
 
-export {registerUser}
+
+
+//current profile user => /api/me
+const currentProfileUser = catchAsyncError(async (req,res)=>{
+     let user = await User.findById(req.user._id);
+     res.status(200).json({
+        success:true,
+        user
+     })
+   
+})
+
+export {registerUser,currentProfileUser}
