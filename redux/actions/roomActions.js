@@ -10,7 +10,7 @@ export const getAllRooms =(req,currentPage=1,location='',guests,category) => asy
     if(guests) link = link.concat(`&guestCapacity=${guests}`);
     if(category) link = link.concat(`&category=${category}`);
      const {data} = await axios.get(link)
-    console.log(data)
+    // console.log(data)
     dispatch({
         type:ALL_ROOMS_SUCCESS,
         payload:data
