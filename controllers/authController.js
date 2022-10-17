@@ -49,4 +49,37 @@ const currentProfileUser = catchAsyncError(async (req,res)=>{
    
 })
 
-export {registerUser,currentProfileUser}
+//update profile user => /api/me/update
+const updateProfile = catchAsyncError(async (req,res)=>{
+   let user = await User.findById(req.user._id);
+    if(user){
+      user.name = req.body.name;
+      user.email = req.body.email;
+      if(req.body.password) user.password = req.body.password
+    }
+
+    if(req.body.avatar !== ''){
+      const image_id = user.avatar.public_id
+
+      //Delete user previoues image/avatar
+      await cloudinary.v2.uploader.destroy(image_id);
+
+      const result = await cloudinary.v2.uploader.upload(req.body.avatar,{
+         folder:'bookit/avatars',
+         width:'150',
+         crop:'scale'
+     })
+
+      user.avatar = {
+         public_id:result.public_id,
+         url:result.secure_url
+      }
+
+    }
+    await user.save()
+   res.status(200).json({
+      success:true
+   })
+ 
+})
+export {registerUser,currentProfileUser,updateProfile}
