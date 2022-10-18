@@ -3,7 +3,8 @@ import User from '../models/user';
 import ErrorHandler from '../utils/errorHandler';
 import cloudinary from 'cloudinary'
 import absoluteUrl from 'next-absolute-url';
-import sendEmail from '../utils/sendEmail'
+import sendEmail from '../utils/sendEmail';
+import crypto from 'crypto';
 
 //setting up cloudinary config
 cloudinary.config({
@@ -130,4 +131,42 @@ const forgotPassword = catchAsyncError(async (req, res, next) => {
    }
 
 })
-export {registerUser,currentProfileUser,updateProfile,forgotPassword}
+
+
+// reset password   =>   /api/password/reset/:token
+const resetPassword = catchAsyncError(async (req, res, next) => {
+
+    //Hash URL Token
+    const resetPasswordToken =crypto.createHash('sha256').update(req.query.token).digest('hex')
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire:{$gt:Date.now()}
+    });
+ 
+    if (!user) {
+        return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
+    }
+
+    if(req.body.password !== req.body.confirmPassword){
+        return next(new ErrorHandler('Password does not match', 400))
+
+    }
+
+    //set up the new password
+    user.password = req.body.password
+    
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+        success:true,
+        message:'Password updated successfully'
+    })
+ 
+   
+
+ 
+ })
+export {registerUser,currentProfileUser,updateProfile,forgotPassword,resetPassword}
