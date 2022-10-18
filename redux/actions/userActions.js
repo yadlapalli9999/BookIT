@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from "../constants/userConstants";
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE } from "../constants/userConstants";
 //Register User
 export const registerUser =(userData) => async(dispatch)=>{
     try{
@@ -101,6 +101,34 @@ export const forgotPassword =(email) => async(dispatch)=>{
      })
     }
  }
+
+
+ //reset password
+export const resetPassword =(token,passwords) => async(dispatch)=>{
+    try{
+
+         dispatch({type:RESET_PASSWORD_REQUEST});
+         const config = {
+            headers:{
+                'Content-Type':'application/json'
+            }
+         }
+    
+      const {data} = await axios.put(`/api/password/reset/${token}`,passwords,config)
+     console.log(data)
+     dispatch({
+         type:RESET_PASSWORD_SUCCESS,
+         payload:data.success
+     })
+    }
+    catch(error){
+          dispatch({
+         type:RESET_PASSWORD_FAILURE,
+         payload: error.response.data.message
+     })
+    }
+ }
+
 
  //clear error
 export const clearErrors = ()=> async(dispatch)=>{
