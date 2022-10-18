@@ -1,4 +1,4 @@
-import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE } from "../constants/userConstants";
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from "../constants/userConstants";
 
 export const authReducer = (state={user:null,isAuthenticated:false},action)=>{
     switch(action.type){
@@ -61,6 +61,35 @@ export const userReducer = (state={},action)=>{
                 isUpdated:false
             }     
         case PROFILE_USER_FAILURE:
+            return{
+                loading:false,
+                error:action.payload
+            } 
+        
+        case CLEAR_ERROR:
+            return{
+                ...state,
+                error:''
+            }      
+        default:
+            return state;     
+    }
+}
+
+
+//forgot password reducer
+export const forgotPasswordReducer = (state={},action)=>{
+    switch(action.type){
+        case FORGOT_PASSWORD_REQUEST:
+            return {
+                loading:true
+            }
+        case FORGOT_PASSWORD_SUCCESS:
+            return{
+                loading:false,
+                message:action.payload
+            } 
+        case FORGOT_PASSWORD_FAILURE:
             return{
                 loading:false,
                 error:action.payload
