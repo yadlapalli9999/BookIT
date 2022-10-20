@@ -3,7 +3,7 @@ import dbConnect from '../../../config/dbConnect';
 import { checkRoomBookingAvailability } from '../../../controllers/bookingController';
 import onError from '../../../middlewares/errors';
 const handler = nc({onError});
-dbConnect()
+dbConnect();
 handler.get(checkRoomBookingAvailability)
 
 export default handler;

@@ -31,7 +31,7 @@ const newBooking = catchAsyncError(async (req,res)=>{
 //Create new booking => /api/booking/check
 const checkRoomBookingAvailability = catchAsyncError(async (req,res)=>{
    
-    const {roomId,checkInDate,checkOutDate} = req.query;
+    let {roomId,checkInDate,checkOutDate} = req.query;
      checkInDate = new Date(checkInDate);
      checkOutDate = new Date(checkOutDate)
    const bookings = await Booking.find({

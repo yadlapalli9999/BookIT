@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Axios from 'axios';
 import { toast } from "react-toastify";
+import { checkBooking } from "../../redux/actions/bookingActions";
+
 import { clearErrors } from "../../redux/actions/roomActions";
 import RoomFeatures from "./RoomFeatures";
 import { useRouter } from "next/router";
@@ -11,11 +13,18 @@ import { useRouter } from "next/router";
 const RoomDetails = ()=>{
   const [checkInDate,setCheckInDate] = useState();
   const [checkOutDate,setCheckOutDate] = useState();
-  const [daysOfStay,setDaysOfStay] = useState()
-  const {room,error} = useSelector(state=>state.roomDetails)
-  console.log(room)
+  const [daysOfStay,setDaysOfStay] = useState();
+
   let dispatch = useDispatch();
   let router = useRouter();
+
+  const {user} = useSelector(state=>state.loadedUser)
+
+  const {room,error} = useSelector(state=>state.roomDetails)
+  const {available,loading:bookingLoading} = useSelector(state=>state.checkBooking)
+  const {id} = router.query;
+
+  
    let onchange = (dates)=>{
     let [checkInDate,checkOutDate] = dates;
     setCheckInDate(checkInDate);
@@ -25,6 +34,8 @@ const RoomDetails = ()=>{
       //calculate the no of days
       let days = Math.floor(((new Date(checkOutDate)- new Date(checkInDate))/84600000)+1)
       setDaysOfStay(days)
+
+      dispatch(checkBooking(id,checkInDate.toISOString(),checkOutDate.toISOString()))
     }
    }
 
@@ -102,11 +113,28 @@ const RoomDetails = ()=>{
                     onChange={onchange}
                     startDate={checkInDate}
                     endDate={checkOutDate}
+                    minDate={new Date()}
                     selectsRange
                     inline
                     />
+                    {
+                      available === true && <div className="alert alert-success my-3 font-weight-bold">Room is available. Book Now.</div>
+                    }
 
-                    <button className="btn btn-block py-3 booking-btn" onClick={newBookingHandler}>Pay</button>
+                    {
+                      available === false && <div className="alert alert-danger my-3 font-weight-bold">Room not available. Try Different Dates.</div>
+                    }
+
+                    {
+                      available && !user && <div className="alert alert-danger my-3 font-weight-bold">Login to Book Room.</div>
+                    }
+
+                    {
+                      available && user && 
+                      <button className="btn btn-block py-3 booking-btn" onClick={newBookingHandler}>Pay</button>
+                    }
+
+                    
 
                   </div>
               </div>
