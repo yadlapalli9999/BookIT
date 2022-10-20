@@ -16,6 +16,20 @@ export const authReducer = (state={user:null,isAuthenticated:false},action)=>{
                 loading:false,
                 error:action.payload
             } 
+        case CLEAR_ERROR:
+            return{
+                ...state,
+                error:''
+            }      
+        default:
+            return state;     
+    }
+}
+
+// loaded user reducer
+export const loadedUserReducer = (state={loading:true, user:null},action)=>{
+    switch(action.type){
+        
         case LOAD_USER_REQUEST:
             return{
                 loading:true,
