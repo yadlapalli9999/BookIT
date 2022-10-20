@@ -2,29 +2,66 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import Axios from 'axios';
 import { toast } from "react-toastify";
 import { clearErrors } from "../../redux/actions/roomActions";
 import RoomFeatures from "./RoomFeatures";
+import { useRouter } from "next/router";
 
 const RoomDetails = ()=>{
   const [checkInDate,setCheckInDate] = useState();
   const [checkOutDate,setCheckOutDate] = useState();
+  const [daysOfStay,setDaysOfStay] = useState()
   const {room,error} = useSelector(state=>state.roomDetails)
   console.log(room)
   let dispatch = useDispatch();
+  let router = useRouter();
    let onchange = (dates)=>{
     let [checkInDate,checkOutDate] = dates;
     setCheckInDate(checkInDate);
     setCheckOutDate(checkOutDate);
     if(checkInDate && checkOutDate){
-      console.log(checkInDate.toISOString(), checkOutDate.toISOString())
+      //console.log(checkInDate.toISOString(), checkOutDate.toISOString())
+      //calculate the no of days
+      let days = Math.floor(((new Date(checkOutDate)- new Date(checkInDate))/84600000)+1)
+      setDaysOfStay(days)
     }
    }
+
+   let newBookingHandler = async()=>{
+       const bookingData = {
+         room:router.query.id,
+         checkInDate,
+         checkOutDate,
+         daysOfStay,
+         amountPaid:90,
+         paymentInfo:{
+          id:'STRIPE_PAYMENT_ID',
+          status:'STRIPE_PAYMENT_STATUS'
+         }
+       }
+       try{
+           let config = {
+              headers:{
+                'Content-Type':'application/json'
+              }
+           }
+
+           const {data} = await Axios.post('/api/bookings',bookingData,config)
+           console.log(data)
+
+       }
+       catch(error){
+        console.log(error.response)
+       }
+
+  }
   useEffect(()=>{
     toast.error(error)
     dispatch(clearErrors())
   },[])
+
+  
     return(
         <>
            <div className="container container-fluid">
@@ -69,7 +106,7 @@ const RoomDetails = ()=>{
                     inline
                     />
 
-                    <button className="btn btn-block py-3 booking-btn">Pay</button>
+                    <button className="btn btn-block py-3 booking-btn" onClick={newBookingHandler}>Pay</button>
 
                   </div>
               </div>
