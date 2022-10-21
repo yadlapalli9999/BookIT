@@ -1,4 +1,4 @@
-import { BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_RESET, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from "../constants/bookingConstants"
+import { BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_RESET, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from "../constants/bookingConstants"
 
 
 
@@ -70,6 +70,32 @@ export const bookingReducer = (state={bookings:[]},action)=>{
             } 
         
         case MY_BOOKING_FAILURE:
+            return{
+                loading:false,
+                error:action.payload
+            } 
+        case CLEAR_ERROR:
+            return{
+                ...state,
+                error:''
+            }      
+        default:
+            return state;     
+    }
+}
+
+
+//my booking details reducer
+export const bookingDetailsReducer = (state={booking:{}},action)=>{
+    switch(action.type){
+        
+        case BOOKING_DETAILS_SUCCESS:
+            return{
+                loading:false,
+                booking: action.payload
+            } 
+        
+        case BOOKING_DETAILS_FAILURE:
             return{
                 loading:false,
                 error:action.payload

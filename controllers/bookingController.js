@@ -105,5 +105,25 @@ const myBookings = catchAsyncError(async (req,res)=>{
  
 })
 
+//Get Booked details => /api/booking/:id
+const getBookingDetails = catchAsyncError(async (req,res)=>{
+   
+   const booking = await Booking.findById(req.query.id)
+                         .populate({
+                           path:'room',
+                           select:'name pricePerNight images '
+                         })
+                         .populate({
+                           path:'user',
+                           select:'name email'
+                         })
 
-export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings}
+   res.status(200).json({
+      success:true,
+      booking
+   })
+ 
+})
+
+
+export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings,getBookingDetails}
