@@ -4,6 +4,9 @@ const nextConfig = {
   swcMinify: true,
   env:{
     DB_LOCAL_URI : 'mongodb://localhost:27017/bookit',
+
+    STRIPE_API_KEY :'pk_test_51LvL4XSGbr99p4bo8Cr9bu83w7GaXEWsbua5dYvklfzwWNimMxHvwZBJPjLKbEEIUJsb5K4znWQreXmDDWn8oaD8001zLoEl6Z',
+    STRIPE_SECRET_KEY:'sk_test_51LvL4XSGbr99p4boVRZE6vh9RwO3lIAdQKxOZvJ78xwUVZHqFg2lQOpLOIh1bSvspBEcp9SwVrXXXpAcJe6C4xLq00YtWQONk5',
     CLOUDINARY_CLOUD_NAME:'dc26muxal',
     CLOUDINARY_API_KEY:'943686368841334',
     CLOUDINARY_SECRET_KEY:'oP--Se49moFEoLovdQv_Dt-ky54',
