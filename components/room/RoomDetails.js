@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Axios from 'axios';
 import { toast } from "react-toastify";
-import { checkBooking } from "../../redux/actions/bookingActions";
+import { checkBooking, getBookedDates } from "../../redux/actions/bookingActions";
 
 import { clearErrors } from "../../redux/actions/roomActions";
 import RoomFeatures from "./RoomFeatures";
@@ -19,11 +19,15 @@ const RoomDetails = ()=>{
   let router = useRouter();
 
   const {user} = useSelector(state=>state.loadedUser)
+  const {dates} = useSelector(state=>state.bookedDates)
 
   const {room,error} = useSelector(state=>state.roomDetails)
   const {available,loading:bookingLoading} = useSelector(state=>state.checkBooking)
   const {id} = router.query;
-
+   const excludedDates = [];
+   dates.forEach(date=>{
+    excludedDates.push(new Date(date))
+   })
   
    let onchange = (dates)=>{
     let [checkInDate,checkOutDate] = dates;
@@ -68,9 +72,10 @@ const RoomDetails = ()=>{
 
   }
   useEffect(()=>{
+    dispatch(getBookedDates(id))
     toast.error(error)
     dispatch(clearErrors())
-  },[])
+  },[dispatch,id])
 
   
     return(
@@ -114,6 +119,7 @@ const RoomDetails = ()=>{
                     startDate={checkInDate}
                     endDate={checkOutDate}
                     minDate={new Date()}
+                    excludeDates={excludedDates}
                     selectsRange
                     inline
                     />
