@@ -32,7 +32,7 @@ const stripCheckoutSession = catchAsyncError(async (req, res) => {
             {
                     //currency: 'usd',
                 //name: room.name,
-                 price: req.query.amount * 100,
+                 amount: req.query.amount * 100,
                 
                 quantity: 1,
 

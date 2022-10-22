@@ -86,6 +86,7 @@ const RoomDetails = ()=>{
         const link = `/api/checkout_session/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`
 
         const { data } = await Axios.get(link, { params: { amount } })
+        console.log(data)
 
         const stripe = await getStripe();
 
@@ -97,7 +98,7 @@ const RoomDetails = ()=>{
     } catch (error) {
 
         setPaymentLoading(false);
-        console.log(error);
+        console.log(error.response);
         toast.error(error.message)
     }
 
@@ -115,14 +116,14 @@ const RoomDetails = ()=>{
     return(
         <>
            <div className="container container-fluid">
-        <h2 className='mt-5'>{room.name}</h2>
-        <p>{room.address}</p>
+        <h2 className='mt-5'>{room && room.name}</h2>
+        <p>{room && room.address}</p>
 
         <div className="ratings mt-auto mb-3">
             <div className="rating-outer">
-              <div className="rating-inner" style={{width:`${(room.ratings/5)*100}%`}}></div>
+              <div className="rating-inner" style={{width:`${(room&&room.ratings/5)*100}%`}}></div>
             </div>
-            <span id="no_of_reviews">({room.numOfReviews} Reviews)</span>
+            <span id="no_of_reviews">({room && room.numOfReviews} Reviews)</span>
           </div>
 
           <img src="https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960" className="d-block w-100 property-details-image m-auto" alt="Hotel"/>
@@ -131,7 +132,7 @@ const RoomDetails = ()=>{
           <div className="row my-5">
               <div className="col-12 col-md-6 col-lg-8">
                   <h3>Description</h3>
-                  <p>{room.description}</p>
+                  <p>{room && room.description}</p>
 
 
                   <RoomFeatures room={room}/>
@@ -141,7 +142,7 @@ const RoomDetails = ()=>{
 
               <div className="col-12 col-md-6 col-lg-4">
                   <div className="booking-card shadow-lg p-4">
-                    <p className='price-per-night'><b>${room.pricePerNight}</b> / night</p>
+                    <p className='price-per-night'><b>${room &&room.pricePerNight}</b> / night</p>
                     <hr/>
 
                     <p className="mt-5 mb-3">Pick Check In & Check Out Date</p>
