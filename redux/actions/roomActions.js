@@ -1,6 +1,6 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
-import { ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
+import { ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
 
 export const getAllRooms =(req,currentPage=1,location='',guests,category) => async(dispatch)=>{
    try{
@@ -51,6 +51,33 @@ export const getRoomDetails =(req,id) => async(dispatch)=>{
         })
     }
  }
+
+
+ export const newReview = (reviewData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: NEW_REVIEW_REQUEST })
+
+        const config = {
+            header: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`/api/reviews`, reviewData, config)
+
+        dispatch({
+            type: NEW_REVIEW_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: NEW_REVIEW_FAILURE,
+            payload: error.response.data.message
+        })
+    }
+}
 
 //clear error
 export const clearErrors = ()=> async(dispatch)=>{
