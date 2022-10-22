@@ -16,15 +16,15 @@ const NewReview = () => {
     const router = useRouter();
 
     const { error, success } = useSelector(state => state.newReview)
-   // const { reviewAvailable } = useSelector(state => state.checkReview)
+   const { reviewAvailable } = useSelector(state => state.checkReview)
 
     const { id } = router.query;
 
     useEffect(() => {
 
-        // if (id !== undefined) {
-        //     dispatch(checkReviewAvailability(id))
-        // }
+        if (id !== undefined) {
+            dispatch(checkReviewAvailability(id))
+        }
 
         if (error) {
             toast.error(error);
@@ -94,7 +94,7 @@ const NewReview = () => {
 
     return (
         <>
-            {/* //{reviewAvailable && */}
+            {reviewAvailable && 
                 <button
                     id="review_btn"
                     type="button"
@@ -105,7 +105,7 @@ const NewReview = () => {
                 >
                     Submit Your Review
                 </button>
-            {/* } */}
+            }
             <div className="modal fade" id="ratingModal" tabIndex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
