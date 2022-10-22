@@ -139,7 +139,7 @@ const createRoomReview =catchAsyncError( async(req,res,next)=>{
 
    }else{
       room.reviews.push(review);
-      room.numOfReviews = room.review.length
+      room.numOfReviews = room.reviews.length
    }
    
 
