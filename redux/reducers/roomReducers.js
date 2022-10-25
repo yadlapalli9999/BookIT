@@ -6,7 +6,11 @@ import {ALL_ROOMS_SUCCESS,ALL_ROOMS_FAIL,CLEAR_ERROR, ROOM_DETAIL_SUCCESS,
     REVIEW_AVAILABILITY_SUCCESS,
     ADMIN_ROOMS_REQUEST,
     ADMIN_ROOMS_SUCCESS,
-    ADMIN_ROOMS_FAIL
+    ADMIN_ROOMS_FAIL,
+    NEW_ROOM_REQUEST,
+    NEW_ROOM_SUCCESS,
+    NEW_ROOM_RESET,
+    NEW_ROOM_FAILURE
 } from '../constants/roomConstants';
 
 //All rooms reduers
@@ -115,6 +119,43 @@ export const checkReviewReducer = (state = { reviewAvailable: null }, action) =>
             }
 
         case REVIEW_AVAILABILITY_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERROR:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state
+    }
+}
+
+//new room reducer
+export const newRoomReducer = (state = {room:{}}, action) => {
+    switch (action.type) {
+        case NEW_ROOM_REQUEST:
+            return {
+                loading: true
+            }
+
+        case NEW_ROOM_SUCCESS:
+            return {
+                loading: false,
+                success: action.payload.success,
+                room:action.payload.room
+            }
+
+        case NEW_ROOM_RESET:
+            return {
+                success: false
+            }
+
+        case NEW_ROOM_FAILURE:
             return {
                 loading: false,
                 error: action.payload

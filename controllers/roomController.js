@@ -3,6 +3,8 @@ import Booking from '../models/booking';
 import Room from '../models/room';
 import APIFeatures from '../utils/apiFeatures';
 import ErrorHandler from '../utils/errorHandler';
+import cloudinary from 'cloudinary'
+
 
 const allRooms = catchAsyncError(async (req,res)=>{
   let resPerPage = 4;
@@ -32,6 +34,23 @@ const allRooms = catchAsyncError(async (req,res)=>{
 
 const newRoom =catchAsyncError( async(req,res)=>{
    //try{
+
+    const images = req.body.images;
+    let imageLinks = [];
+
+    for(let i =0; i<images.length;i++){
+      const result = await cloudinary.v2.uploader.upload(images[i],{
+         folder:'bookit/rooms',
+         width:'150',
+         crop:'scale'
+     })
+     imageLinks.push({
+      public_id:result.public_id,
+      url:result.secure_url
+     })
+    }
+    req.body.images = imageLinks;
+    req.body.user = req.user._id;
      let room = await Room.create(req.body);
      res.status(200).json({
         success:true,

@@ -1,6 +1,6 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
-import { ADMIN_ROOMS_FAIL, ADMIN_ROOMS_REQUEST, ADMIN_ROOMS_SUCCESS, ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
+import { ADMIN_ROOMS_FAIL, ADMIN_ROOMS_REQUEST, ADMIN_ROOMS_SUCCESS, ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, NEW_ROOM_FAILURE, NEW_ROOM_REQUEST, NEW_ROOM_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
 
 export const getAllRooms =(req,currentPage=1,location='',guests,category) => async(dispatch)=>{
    try{
@@ -119,6 +119,34 @@ export const getAllAdminRooms =() => async(dispatch)=>{
         })
     }
  }
+
+
+ export const newRoom = (roomData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: NEW_ROOM_REQUEST })
+
+        const config = {
+            header: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.post(`/api/rooms`, roomData, config)
+
+        dispatch({
+            type: NEW_ROOM_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: NEW_ROOM_FAILURE,
+            payload: error.response.data.message
+        })
+    }
+}
+
 
 
 //clear error
