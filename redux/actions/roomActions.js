@@ -1,6 +1,6 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
-import { ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
+import { ADMIN_ROOMS_FAIL, ADMIN_ROOMS_REQUEST, ADMIN_ROOMS_SUCCESS, ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS} from "../constants/roomConstants";
 
 export const getAllRooms =(req,currentPage=1,location='',guests,category) => async(dispatch)=>{
    try{
@@ -98,6 +98,28 @@ export const checkReviewAvailability = (roomId) => async (dispatch) => {
         })
     }
 }
+
+
+//get all admin rooms
+export const getAllAdminRooms =() => async(dispatch)=>{
+    try{
+    
+        dispatch({type:ADMIN_ROOMS_REQUEST})
+     const {data} = await axios.get(`/api/admin/rooms`)
+ 
+     dispatch({
+         type:ADMIN_ROOMS_SUCCESS,
+         payload:data.rooms
+     })
+    }
+    catch(error){
+        dispatch({
+            type:ADMIN_ROOMS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+ }
+
 
 //clear error
 export const clearErrors = ()=> async(dispatch)=>{

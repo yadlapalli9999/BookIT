@@ -3,12 +3,19 @@ import {ALL_ROOMS_SUCCESS,ALL_ROOMS_FAIL,CLEAR_ERROR, ROOM_DETAIL_SUCCESS,
     NEW_REVIEW_RESET,
     REVIEW_AVAILABILITY_FAIL,
     REVIEW_AVAILABILITY_REQUEST,
-    REVIEW_AVAILABILITY_SUCCESS
+    REVIEW_AVAILABILITY_SUCCESS,
+    ADMIN_ROOMS_REQUEST,
+    ADMIN_ROOMS_SUCCESS,
+    ADMIN_ROOMS_FAIL
 } from '../constants/roomConstants';
 
 //All rooms reduers
 export const allRoomsReducer = (state={rooms:[]},action)=>{
     switch(action.type){
+        case ADMIN_ROOMS_REQUEST:
+            return {
+                loading:true
+            }
         case ALL_ROOMS_SUCCESS:
             return {
                 roomCount : action.payload.roomCount,
@@ -16,7 +23,13 @@ export const allRoomsReducer = (state={rooms:[]},action)=>{
                 fliteredRoomCount: action.payload.fliteredRoomCount,
                 rooms : action.payload.rooms
             }
+        case ADMIN_ROOMS_SUCCESS:
+            return{
+                loading:false,
+                rooms:action.payload
+            }    
         case ALL_ROOMS_FAIL:
+        case ADMIN_ROOMS_FAIL:    
             return{
                 error:action.payload
             } 
