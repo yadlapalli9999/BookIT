@@ -172,4 +172,17 @@ const checkReviewAvailability = catchAsyncError(async (req, res) => {
 
 })
 
-export {allRooms,newRoom,getSingleRoom,updateRoom,deleteRoom,createRoomReview,checkReviewAvailability}
+// All Rooms ADMIN   =>   /api/admin/rooms
+const allAdminRooms = catchAsyncError(async (req, res) => {
+
+
+   const rooms = await Room.find();
+
+   res.status(200).json({
+       success: true,
+       rooms
+   })
+
+})
+
+export {allRooms,newRoom,getSingleRoom,updateRoom,deleteRoom,createRoomReview,checkReviewAvailability,allAdminRooms}
