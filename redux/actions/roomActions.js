@@ -38,6 +38,7 @@ export const getRoomDetails =(req,id) => async(dispatch)=>{
          url = `/api/rooms/${id}`
      }
      const {data} = await axios.get(url)
+     console.log(data)
  
      dispatch({
          type:ROOM_DETAIL_SUCCESS,

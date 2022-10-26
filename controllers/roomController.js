@@ -100,6 +100,8 @@ const updateRoom = catchAsyncError(async(req,res,next)=>{
     return next(new ErrorHandler('Room not found with this ID',404))
 
       }
+      const imageLinks = [];
+
 
       if(req.body.images){
           
@@ -108,7 +110,10 @@ const updateRoom = catchAsyncError(async(req,res,next)=>{
             await cloudinary.v2.uploader.destroy(room.images[i].public_id)
          }
 
-         for(let i =0; i<images.length;i++){
+
+         const images = req.body.images;
+
+         for(let i=0; i<images.length;i++){
             const result = await cloudinary.v2.uploader.upload(images[i],{
                folder:'bookit/rooms',
                width:'150',

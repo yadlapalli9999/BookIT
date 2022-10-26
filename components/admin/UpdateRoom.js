@@ -2,12 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { clearErrors, newRoom } from "../../redux/actions/roomActions";
+import { clearErrors, getRoomDetails, updateRoom } from "../../redux/actions/roomActions";
 import Link from 'next/link';
-import { NEW_ROOM_RESET } from "../../redux/constants/roomConstants";
+import { UPDATE_ROOM_RESET } from "../../redux/constants/roomConstants";
 import ButtonLoader from "../layout/ButtonLoader";
+import Loader from "../layout/Loader";
 
-const NewRoom = () =>{
+const UpdateRoom = () =>{
     let [name,setName] = useState('');
     let [price,setPrice] = useState(0);
     let [description,setDescription] = useState('');
@@ -22,23 +23,53 @@ const NewRoom = () =>{
     let [roomCleaning,setRoomCleaning] = useState(false)
 
     let [images,setImages] = useState([]);
+    let [oldImages,setOldImages] = useState([]);
+
     let [imagesPreview,setImagesPreview] = useState([]);
 
 
     let dispatch = useDispatch();
     let router = useRouter();
-    let {loading,error,success} = useSelector(state=>state.newRoom)
+    let {loading,error,isUpdated} = useSelector(state=>state.room)
+    let {loading:roomDetailsLoading,error:roomDetailsError,room} = useSelector(state=>state.roomDetails)
+
+    let {id} = router.query;
 
     useEffect(()=>{
+
+        if(room && room._id !== id){
+            dispatch(getRoomDetails('',id))
+        }
+        else{
+            setName(room.name)
+            setPrice(room.pricePerNight)
+            setDescription(room.description)
+            setAddress(room.address)
+            setCategory(room.category)
+            setGuestCapacity(room.guestCapacity)
+            setBreakfast(room.breakfast)
+            setAirConditioned(room.airConditioned)
+            setPetsAllowed(room.petsAllowed)
+            setInternet(room.internet)
+            setNumOfBeds(room.numOfBeds)
+            setRoomCleaning(room.roomCleaning)
+            setOldImages(room.images)
+        }
+
         if(error){
             toast.error(error);
             dispatch(clearErrors())
         }
-        if(success){
-            router.push('/admin/rooms');
-            dispatch({type:NEW_ROOM_RESET})
+        if(roomDetailsError){
+            toast.roomDetailsError(error)
+            dispatch(clearErrors())
         }
-    },[dispatch,error,success])
+        if(isUpdated){
+            dispatch(getRoomDetails('', id))
+            router.push('/admin/rooms');
+            dispatch({type:UPDATE_ROOM_RESET})
+        }
+    },[dispatch,error,isUpdated,roomDetailsError,room,id])
 
     const submitHandler =(e)=>{
         e.preventDefault();
@@ -55,17 +86,17 @@ const NewRoom = () =>{
             airConditioned,
             petsAllowed,
             roomCleaning,
-            images
         }
          
-        if(images.length === 0) return toast.error('Please upload images')
-        dispatch(newRoom(roomData))
+        if(images.length !== 0) roomData.images = images
+        dispatch(updateRoom(room._id,roomData))
     }
     const onChange = (e) => {
 
         const files = Array.from(e.target.files)
 
         setImages([]);
+        setOldImages([]);
         setImagesPreview([]);
 
         files.forEach(file => {
@@ -86,11 +117,13 @@ const NewRoom = () =>{
     }
 
     return(
+        <>
+        {roomDetailsLoading ? <Loader /> :
         <div className="container container-fluid">
         <div className="row wrapper">
            <div className="col-10 col-lg-8">
               <form className="shadow-lg" onSubmit={submitHandler} encType="multipart/form-data">
-                 <h1 className="mb-4">New Room</h1>
+                 <h1 className="mb-4">Update Room</h1>
                  <div className="form-group">
                     <label htmlFor="name_field">Name</label>
                     <input
@@ -174,6 +207,7 @@ const NewRoom = () =>{
                        id="internet_checkbox"
                        value={internet}
                        onChange={(e)=>setInternet(e.target.checked)}
+                       checked={internet}
                        />
                     <label className="form-check-label" htmlFor="internet_checkbox">
                     Internet
@@ -186,6 +220,7 @@ const NewRoom = () =>{
                        id="breakfast_checkbox"
                        value={breakfast}
                        onChange={(e)=>setBreakfast(e.target.checked)}
+                       checked={breakfast}
                        />
                     <label className="form-check-label" htmlFor="breakfast_checkbox">
                     Breakfast
@@ -198,6 +233,7 @@ const NewRoom = () =>{
                        id="airConditioned_checkbox"
                        value={airConditioned}
                        onChange={(e)=>setAirConditioned(e.target.checked)}
+                       checked={airConditioned}
                        />
                     <label className="form-check-label" htmlFor="airConditioned_checkbox">
                     Air Conditioned
@@ -210,6 +246,7 @@ const NewRoom = () =>{
                        id="petsAllowed_checkbox"
                        value={petsAllowed}
                        onChange={(e)=>setPetsAllowed(e.target.checked)}
+                       checked={petsAllowed}
                        />
                     <label className="form-check-label" htmlFor="petsAllowed_checkbox">
                     Pets Allowed
@@ -222,6 +259,7 @@ const NewRoom = () =>{
                        id="roomCleaning_checkbox"
                        value={roomCleaning}
                        onChange={(e)=>setRoomCleaning(e.target.checked)}
+                       checked={roomCleaning}
                        />
                     <label className="form-check-label" htmlFor="roomCleaning_checkbox">
                     Room Cleaning
@@ -254,17 +292,32 @@ const NewRoom = () =>{
                             />
                         ))
                     }
+
+{oldImages && oldImages.map(img => (
+
+<img
+    src={img.url}
+    key={img.public_id}
+    alt="Images Preview"
+    className="mt-3 mr-2"
+    width="55"
+    height="52"
+/>
+
+))}
                     
                  </div>
                  <button type="submit" disabled={loading? true:false} className="btn btn-block new-room-btn py-3">
-                    {loading? <ButtonLoader/>:'CREATE'}
+                    {loading? <ButtonLoader/>:'Update'}
                  
                  </button>
               </form>
            </div>
         </div>
-    </div>       
+    </div>   
+}
+    </>    
     )
 }
 
-export default NewRoom;
+export default UpdateRoom;
