@@ -14,7 +14,11 @@ import {ALL_ROOMS_SUCCESS,ALL_ROOMS_FAIL,CLEAR_ERROR, ROOM_DETAIL_SUCCESS,
     UPDATE_ROOM_REQUEST,
     UPDATE_ROOM_SUCCESS,
     UPDATE_ROOM_RESET,
-    UPDATE_ROOM_FAILURE
+    UPDATE_ROOM_FAILURE,
+    DELETE_ROOM_REQUEST,
+    DELETE_ROOM_SUCCESS,
+    DELETE_ROOM_RESET,
+    DELETE_ROOM_FAILURE
 } from '../constants/roomConstants';
 
 //All rooms reduers
@@ -180,6 +184,7 @@ export const newRoomReducer = (state = {room:{}}, action) => {
 export const roomReducer = (state = {}, action) => {
     switch (action.type) {
         case UPDATE_ROOM_REQUEST:
+        case DELETE_ROOM_REQUEST:    
             return {
                 loading: true
             }
@@ -189,13 +194,23 @@ export const roomReducer = (state = {}, action) => {
                 loading: false,
                 isUpdated: action.payload
             }
+        case DELETE_ROOM_SUCCESS:
+            return {
+                loading: false,
+                isDeleted: action.payload
+            }    
 
         case UPDATE_ROOM_RESET:
             return {
                 isUpdated: false
             }
 
+        case DELETE_ROOM_RESET:
+            return {
+                isDeleted: false
+            }    
         case UPDATE_ROOM_FAILURE:
+        case DELETE_ROOM_FAILURE:    
             return {
                 loading: false,
                 error: action.payload
