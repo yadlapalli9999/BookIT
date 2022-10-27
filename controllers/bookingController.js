@@ -147,6 +147,22 @@ const allAdminBookings = catchAsyncError(async (req,res)=>{
 })
 
 
+//booked delete for admins => /api/admin/bookings/:id
+const deleteAdminBooking = catchAsyncError(async (req,res,next)=>{
+   
+   const booking = await Booking.findById(req.query.id) 
+    if(!booking){
+      return next(new ErrorHandler('Booking id is not avaialble',404))
+    }
+  
+    await booking.remove()
+   res.status(200).json({
+      success:true
+   })
+ 
+})
 
 
-export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings,getBookingDetails,allAdminBookings}
+
+
+export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings,getBookingDetails,allAdminBookings,deleteAdminBooking}

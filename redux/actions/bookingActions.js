@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADMIN_BOOKING_FAILURE, ADMIN_BOOKING_REQUEST, ADMIN_BOOKING_SUCCESS, BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from '../constants/bookingConstants';
+import { ADMIN_BOOKING_FAILURE, ADMIN_BOOKING_REQUEST, ADMIN_BOOKING_SUCCESS, BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, DELETE_BOOKING_FAILURE, DELETE_BOOKING_REQUEST, DELETE_BOOKING_SUCCESS, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from '../constants/bookingConstants';
 import absoluteUrl from "next-absolute-url";
 
 
@@ -119,7 +119,25 @@ export const getAllAdminBookings =() => async(dispatch)=>{
     }
  }
 
+ export const deleteBooking =(id) => async(dispatch)=>{
 
+    try{
+        dispatch({type:DELETE_BOOKING_REQUEST})
+       
+      const {data} = await axios.delete(`/api/admin/bookings/${id}`)
+     console.log(data)
+     dispatch({
+         type:DELETE_BOOKING_SUCCESS,
+         payload:data.success
+     })
+    }
+    catch(error){
+          dispatch({
+         type:DELETE_BOOKING_FAILURE,
+         payload: error.response.data.message
+     })
+    }
+ }
 
  //clear error
 export const clearErrors = ()=> async(dispatch)=>{
