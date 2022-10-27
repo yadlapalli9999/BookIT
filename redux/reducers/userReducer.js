@@ -1,4 +1,4 @@
-import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, ADMIN_USERS_REQUEST, ADMIN_USERS_SUCCESS, ADMIN_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_RESET, UPDATE_USER_FAILURE, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_DETAIL_FAILURE } from "../constants/userConstants";
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, ADMIN_USERS_REQUEST, ADMIN_USERS_SUCCESS, ADMIN_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_RESET, UPDATE_USER_FAILURE, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_DETAIL_FAILURE, DELETE_USER_REQUEST, DELETE_USER_RESET, DELETE_USER_SUCCESS, DELETE_USER_FAIL } from "../constants/userConstants";
 
 export const authReducer = (state={user:null,isAuthenticated:false},action)=>{
     switch(action.type){
@@ -61,7 +61,8 @@ export const loadedUserReducer = (state={loading:true, user:null},action)=>{
 export const userReducer = (state={},action)=>{
     switch(action.type){
         case PROFILE_USER_REQUEST:
-        case UPDATE_USER_REQUEST:    
+        case UPDATE_USER_REQUEST: 
+        case DELETE_USER_REQUEST:   
             return {
                 loading:true
             }
@@ -70,15 +71,26 @@ export const userReducer = (state={},action)=>{
             return{
                 loading:false,
                 isUpdated:action.payload
-            } 
+            }
+        case DELETE_USER_SUCCESS:    
+            return{
+                loading:false,
+                isDeleted:action.payload
+            }      
         case PROFILE_USER_RESET:
         case UPDATE_USER_RESET:    
             return{
                 loading:false,
                 isUpdated:false
-            }     
+            }
+        case DELETE_USER_RESET:    
+            return{
+                loading:false,
+                isDeleted:false
+            }         
         case PROFILE_USER_FAILURE:
-        case UPDATE_USER_FAILURE:    
+        case UPDATE_USER_FAILURE: 
+        case DELETE_USER_FAIL:   
             return{
                 loading:false,
                 error:action.payload

@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { clearErrors, getAllAdminRooms,deleteRoom } from "../../redux/actions/roomActions";
 import Loader from "../layout/Loader";
 import Link from 'next/link';
-import { getAllAdminUsers } from "../../redux/actions/userActions";
+import { getAllAdminUsers,deleteUser } from "../../redux/actions/userActions";
+import { DELETE_USER_RESET } from "../../redux/constants/userConstants";
 
 
 const AllUsers = ()=>{
@@ -14,23 +15,24 @@ const AllUsers = ()=>{
     let dispatch = useDispatch();
 
     let {loading,users,error} = useSelector(state=>state.allUsers)
+    const { error: deleteError, isDeleted } = useSelector(state => state.user)
     //let {loading:deleteLoading,isDeleted,error:deleteError} = useSelector(state=>state.room)
 
      useEffect(()=>{
         dispatch(getAllAdminUsers())
-        // if(error){
-        //     toast.error(error)
-        //     dispatch(clearErrors())
-        // }
-        // if(deleteError){
-        //     toast.error(deleteError)
-        //     dispatch(clearErrors())
-        // }
-        // if(isDeleted){
-        //     router.push('/admin/rooms')
-        //     dispatch({type:DELETE_ROOM_RESET})
-        //}
-     },[dispatch])
+        if(error){
+            toast.error(error)
+            dispatch(clearErrors())
+        }
+        if(deleteError){
+            toast.error(deleteError)
+            dispatch(clearErrors())
+        }
+        if(isDeleted){
+            router.push('/admin/users')
+            dispatch({type:DELETE_USER_RESET})
+        }
+     },[dispatch,error,isDeleted])
 
      const setUsers = ()=>{
         const data = {
@@ -77,7 +79,7 @@ const AllUsers = ()=>{
                         <i className="fa fa-pencil"/>
                     </a>
                  </Link>
-                 <button className="btn btn-success mx-2">
+                 <button className="btn btn-success mx-2" onClick={()=>handleDeleteUser(user._id)}>
                     <i className="fa fa-trash"/>
                  </button>
                 </>
@@ -88,9 +90,9 @@ const AllUsers = ()=>{
 
         
     }
-    // const handleDeleteRoom = (id)=>{
-    //     dispatch(deleteRoom(id))
-    //  }
+    const handleDeleteUser = (id)=>{
+        dispatch(deleteUser(id))
+     }
     return(
         <div className="container container-fluid">
             {
