@@ -50,6 +50,10 @@ const Header = ()=>{
                                       <Link href='/admin/rooms'>
                                           <a className="dropdown-item">Rooms</a>
                                       </Link>
+
+                                      <Link href='/admin/bookings'>
+                                          <a className="dropdown-item">Bookings</a>
+                                      </Link>
                                 <hr/>
                                   </>
                                 )

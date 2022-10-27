@@ -1,4 +1,4 @@
-import { BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_RESET, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from "../constants/bookingConstants"
+import { ADMIN_BOOKING_FAILURE, ADMIN_BOOKING_REQUEST, ADMIN_BOOKING_SUCCESS, BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_RESET, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from "../constants/bookingConstants"
 
 
 
@@ -62,14 +62,20 @@ export const bookedDatesReducer = (state={dates:[]},action)=>{
 //my booking reducer
 export const bookingReducer = (state={bookings:[]},action)=>{
     switch(action.type){
+        case ADMIN_BOOKING_REQUEST:
+            return{
+                loading:true
+            }
         
         case MY_BOOKING_SUCCESS:
+        case ADMIN_BOOKING_SUCCESS:    
             return{
                 loading:false,
                 bookings: action.payload
             } 
         
         case MY_BOOKING_FAILURE:
+        case ADMIN_BOOKING_FAILURE:    
             return{
                 loading:false,
                 error:action.payload

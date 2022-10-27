@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from '../constants/bookingConstants';
+import { ADMIN_BOOKING_FAILURE, ADMIN_BOOKING_REQUEST, ADMIN_BOOKING_SUCCESS, BOOKED_DATES_FAILURE, BOOKED_DATES_SUCCESS, BOOKING_DETAILS_FAILURE, BOOKING_DETAILS_SUCCESS, CHECK_BOOKING_FAILURE, CHECK_BOOKING_REQUEST, CHECK_BOOKING_SUCCESS,CLEAR_ERROR, MY_BOOKING_FAILURE, MY_BOOKING_SUCCESS } from '../constants/bookingConstants';
 import absoluteUrl from "next-absolute-url";
 
 
@@ -97,6 +97,28 @@ export const getBookingDetail =(authCookie,req,id) => async(dispatch)=>{
      })
     }
  }
+
+ //get Booked dates in => /api/bookings/me
+export const getAllAdminBookings =() => async(dispatch)=>{
+
+    try{
+        dispatch({type:ADMIN_BOOKING_REQUEST})
+       
+      const {data} = await axios.get(`/api/admin/bookings`)
+     console.log(data)
+     dispatch({
+         type:ADMIN_BOOKING_SUCCESS,
+         payload:data.bookings
+     })
+    }
+    catch(error){
+          dispatch({
+         type:ADMIN_BOOKING_FAILURE,
+         payload: error.response.data.message
+     })
+    }
+ }
+
 
 
  //clear error

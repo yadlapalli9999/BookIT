@@ -134,4 +134,19 @@ const getBookingDetails = catchAsyncError(async (req,res)=>{
 })
 
 
-export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings,getBookingDetails}
+//booked data for admins => /api/admin/bookings
+const allAdminBookings = catchAsyncError(async (req,res)=>{
+   
+   const bookings = await Booking.find() 
+  
+   res.status(200).json({
+      success:true,
+      bookings
+   })
+ 
+})
+
+
+
+
+export {newBooking,checkRoomBookingAvailability,checkBookedDatesOfRoom,myBookings,getBookingDetails,allAdminBookings}
