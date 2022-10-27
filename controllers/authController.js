@@ -180,4 +180,40 @@ const allAdminUsers = catchAsyncError(async (req,res)=>{
     })
   
 })
-export {registerUser,currentProfileUser,updateProfile,forgotPassword,resetPassword,allAdminUsers}
+
+
+//all user details admin => /api/admin/users
+const getUserDetails = catchAsyncError(async (req,res,next)=>{
+
+    
+    let user = await User.findById(req.query.id);
+    if(!user){
+        return next(new ErrorHandler('User not found with ID', 404))
+    }
+    res.status(200).json({
+       success:true,
+       user
+    })
+  
+})
+
+//all user details admin => /api/admin/users
+const updateUser = catchAsyncError(async (req,res)=>{
+    const newData = {
+        name:req.body.name,
+        email:req.body.email,
+        role:req.body.role
+    }
+    let user = await User.findByIdAndUpdate(req.query.id,newData,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    });
+   
+
+    res.status(200).json({
+       success:true
+    })
+  
+})
+export {registerUser,currentProfileUser,updateProfile,forgotPassword,resetPassword,allAdminUsers,getUserDetails,updateUser}

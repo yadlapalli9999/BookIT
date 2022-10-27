@@ -1,4 +1,4 @@
-import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, ADMIN_USERS_REQUEST, ADMIN_USERS_SUCCESS, ADMIN_USERS_FAILURE } from "../constants/userConstants";
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, ADMIN_USERS_REQUEST, ADMIN_USERS_SUCCESS, ADMIN_USERS_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_RESET, UPDATE_USER_FAILURE, USER_DETAIL_REQUEST, USER_DETAIL_SUCCESS, USER_DETAIL_FAILURE } from "../constants/userConstants";
 
 export const authReducer = (state={user:null,isAuthenticated:false},action)=>{
     switch(action.type){
@@ -61,20 +61,24 @@ export const loadedUserReducer = (state={loading:true, user:null},action)=>{
 export const userReducer = (state={},action)=>{
     switch(action.type){
         case PROFILE_USER_REQUEST:
+        case UPDATE_USER_REQUEST:    
             return {
                 loading:true
             }
         case PROFILE_USER_SUCCESS:
+        case UPDATE_USER_SUCCESS:    
             return{
                 loading:false,
                 isUpdated:action.payload
             } 
         case PROFILE_USER_RESET:
+        case UPDATE_USER_RESET:    
             return{
                 loading:false,
                 isUpdated:false
             }     
         case PROFILE_USER_FAILURE:
+        case UPDATE_USER_FAILURE:    
             return{
                 loading:false,
                 error:action.payload
@@ -142,6 +146,35 @@ export const allUsersReducer = (state={users:[]},action)=>{
                 users:action.payload
             } 
         case ADMIN_USERS_FAILURE:
+            return{
+                loading:false,
+                error:action.payload
+            }             
+        case CLEAR_ERROR:
+            return{
+                ...state,
+                error:''
+            }      
+        default:
+            return state;     
+    }
+}
+
+
+export const userDetailReducer = (state={user:{}},action)=>{
+    switch(action.type){
+        
+        case USER_DETAIL_REQUEST:
+            return{
+                ...state,
+                loading:true,
+            } 
+        case USER_DETAIL_SUCCESS:
+            return{
+                loading:false,
+                user:action.payload
+            } 
+        case USER_DETAIL_FAILURE:
             return{
                 loading:false,
                 error:action.payload

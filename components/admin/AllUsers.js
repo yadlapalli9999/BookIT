@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { clearErrors, getAllAdminRooms,deleteRoom } from "../../redux/actions/roomActions";
 import Loader from "../layout/Loader";
 import Link from 'next/link';
-import { DELETE_ROOM_RESET } from "../../redux/constants/roomConstants";
 import { getAllAdminUsers } from "../../redux/actions/userActions";
 
 
