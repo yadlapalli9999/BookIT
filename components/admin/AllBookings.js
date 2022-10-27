@@ -16,6 +16,7 @@ const AllBookings = ()=>{
     const router = useRouter();
     const {bookings,error,loading} = useSelector(state=>state.bookings)
     const {error:deletedError,loading:deletedLoading,isDeleted} = useSelector(state=>state.booking)
+    const {booking} = useSelector(state=>state.bookingDetails)
 
 
     useEffect(()=>{
@@ -33,7 +34,6 @@ const AllBookings = ()=>{
           dispatch({type:DELETE_BOOKING_RESET})
         }
     },[dispatch,deletedError,isDeleted])
-
     const setBookings = ()=>{
         const data = {
             columns:[
@@ -74,7 +74,7 @@ const AllBookings = ()=>{
                 amount:`$${booking.amountPaid}`,
                 actions:
                 <>
-                 <Link href={`/bookings/${booking._id}`}>
+                 <Link href={`/admin/bookings/${booking._id}`}>
                     <a className="btn btn-primary">
                         <i className="fa fa-eye"/>
                     </a>
