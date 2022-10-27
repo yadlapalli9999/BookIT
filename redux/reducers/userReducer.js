@@ -1,4 +1,4 @@
-import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE } from "../constants/userConstants";
+import { REGISTER_USER_FAILURE, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS,CLEAR_ERROR, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, PROFILE_USER_REQUEST, PROFILE_USER_SUCCESS, PROFILE_USER_RESET, PROFILE_USER_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, ADMIN_USERS_REQUEST, ADMIN_USERS_SUCCESS, ADMIN_USERS_FAILURE } from "../constants/userConstants";
 
 export const authReducer = (state={user:null,isAuthenticated:false},action)=>{
     switch(action.type){
@@ -116,6 +116,36 @@ export const forgotPasswordReducer = (state={},action)=>{
                 error:action.payload
             } 
         
+        case CLEAR_ERROR:
+            return{
+                ...state,
+                error:''
+            }      
+        default:
+            return state;     
+    }
+}
+
+
+
+// loaded user reducer
+export const allUsersReducer = (state={users:[]},action)=>{
+    switch(action.type){
+        
+        case ADMIN_USERS_REQUEST:
+            return{
+                loading:true,
+            } 
+        case ADMIN_USERS_SUCCESS:
+            return{
+                loading:false,
+                users:action.payload
+            } 
+        case ADMIN_USERS_FAILURE:
+            return{
+                loading:false,
+                error:action.payload
+            }             
         case CLEAR_ERROR:
             return{
                 ...state,
