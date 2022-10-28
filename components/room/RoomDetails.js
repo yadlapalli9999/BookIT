@@ -172,12 +172,12 @@ const RoomDetails = ()=>{
                       available && !user && <div className="alert alert-danger my-3 font-weight-bold">Login to Book Room.</div>
                     }
 
-                    {/* {
+                    {
                       available && user && 
                       <button className="btn btn-block py-3 booking-btn" onClick={newBookingHandler}>Pay</button>
-                    } */}
+                    }
 
-                            {available && user &&
+                            {/* {available && user &&
                                 <button
                                     className="btn btn-block py-3 booking-btn"
                                     onClick={() => bookRoom(room._id, room.pricePerNight)}
@@ -185,7 +185,7 @@ const RoomDetails = ()=>{
                                 >
                                     Pay - ${daysOfStay * room.pricePerNight}
                                 </button>
-                            }
+                            } */}
 
                     
 

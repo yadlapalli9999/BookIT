@@ -9,8 +9,10 @@ const Header = ()=>{
     let {loading,user} = useSelector((state)=>state.loadedUser)
     console.log(user)
     useEffect(()=>{
+      if(!user){
       dispatch(loadUser())
-    },[dispatch])
+      }
+    },[dispatch,user])
 
     const logoutHandler = ()=>{
        signOut()
@@ -57,6 +59,10 @@ const Header = ()=>{
                                       <Link href='/admin/users'>
                                           <a className="dropdown-item">Users</a>
                                       </Link>
+
+                                      <Link href='/admin/reviews'>
+                                            <a className="dropdown-item">Reviews</a>
+                                        </Link>
                                 <hr/>
                                   </>
                                 )

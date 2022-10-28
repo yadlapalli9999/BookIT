@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { allRoomsReducer, roomDetailReducer,newReviewReducer, checkReviewReducer, newRoomReducer, roomReducer } from "./roomReducers";
+import { allRoomsReducer, roomDetailReducer,newReviewReducer, checkReviewReducer, newRoomReducer, roomReducer, roomReviewsReducer, reviewReducer } from "./roomReducers";
 import { allUsersReducer, authReducer, forgotPasswordReducer, loadedUserReducer, userDetailReducer, userReducer } from "./userReducer";
 import {checkBookingReducer,bookedDatesReducer,bookingReducer,bookingDetailsReducer, bookingsReducer} from './bookingReducers';
 const reducers = combineReducers({
@@ -20,6 +20,8 @@ const reducers = combineReducers({
   bookingDetails: bookingDetailsReducer,
   newReview :newReviewReducer,
   checkReview: checkReviewReducer,
+  roomReviews:roomReviewsReducer,
+  review: reviewReducer,
 })
 
 export default reducers;

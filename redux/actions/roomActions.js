@@ -1,6 +1,6 @@
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
-import { ADMIN_ROOMS_FAIL, ADMIN_ROOMS_REQUEST, ADMIN_ROOMS_SUCCESS, ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, DELETE_ROOM_FAILURE, DELETE_ROOM_REQUEST, DELETE_ROOM_SUCCESS, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, NEW_ROOM_FAILURE, NEW_ROOM_REQUEST, NEW_ROOM_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS, UPDATE_ROOM_FAILURE, UPDATE_ROOM_REQUEST, UPDATE_ROOM_SUCCESS} from "../constants/roomConstants";
+import { ADMIN_ROOMS_FAIL, ADMIN_ROOMS_REQUEST, ADMIN_ROOMS_SUCCESS, ALL_ROOMS_FAIL,ALL_ROOMS_SUCCESS, CLEAR_ERROR, DELETE_REVIEW_FAIL, DELETE_REVIEW_REQUEST, DELETE_REVIEW_SUCCESS, DELETE_ROOM_FAILURE, DELETE_ROOM_REQUEST, DELETE_ROOM_SUCCESS, GET_REVIEWS_FAILURE, GET_REVIEWS_REQUEST, GET_REVIEWS_SUCCESS, NEW_REVIEW_FAILURE, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, NEW_ROOM_FAILURE, NEW_ROOM_REQUEST, NEW_ROOM_SUCCESS, REVIEW_AVAILABILITY_FAIL, REVIEW_AVAILABILITY_REQUEST, REVIEW_AVAILABILITY_SUCCESS, ROOM_DETAIL_FAIL, ROOM_DETAIL_SUCCESS, UPDATE_ROOM_FAILURE, UPDATE_ROOM_REQUEST, UPDATE_ROOM_SUCCESS} from "../constants/roomConstants";
 
 export const getAllRooms =(req,currentPage=1,location='',guests,category) => async(dispatch)=>{
    try{
@@ -196,6 +196,45 @@ export const deleteRoom = (id) => async (dispatch) => {
     }
 }
 
+export const getRoomReviews = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: GET_REVIEWS_REQUEST })
+
+        const { data } = await axios.get(`/api/reviews/?id=${id}`)
+
+        dispatch({
+            type: GET_REVIEWS_SUCCESS,
+            payload: data.reviews
+        })
+
+    } catch (error) {
+        dispatch({
+            type: GET_REVIEWS_FAILURE,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const deleteReview = (id, roomId) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_REVIEW_REQUEST })
+
+        const { data } = await axios.delete(`/api/reviews/?id=${id}&roomId=${roomId}`)
+
+        dispatch({
+            type: DELETE_REVIEW_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_REVIEW_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 
 
 //clear error
